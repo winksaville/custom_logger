@@ -3,11 +3,33 @@
 My typical custom logger which prints time in nanos as well as line numbers and thread id.
 This must be used with an unstable build because `thread_id_value` uses `as_u64()`
 
+## Usage
+
+Example:
+```
+use custom_logger::env_logger_init;
+
+fn main() {
+    env_logger_init("info");
+
+    println!("println output");
+    log::info!("hello");
+}
+```
+
+Dependencies:
+```
+[dependencies]
+custom-logger = { git = "https://github.com/winksaville/custom-logger", version = "0.2.0" }
+log = "0.4.17"
+```
+
+
 ## Building
 
 ```
 cargo build
-````
+```
 
 ## Test
 
@@ -17,31 +39,31 @@ Another gotcha is that env_logger can only be initialized once so this is not a 
 TODO: Create crate tests/ and pass the default configuration on the command line to test other configurations.
 
 ```
-wink@3900x 22-05-07T16:17:04.925Z:~/prgs/rust/myrepos/custom-logger (main)
+wink@3900x 23-01-27T23:45:20.791Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
 $ cargo test -- --nocapture
    Compiling custom-logger v0.1.0 (/home/wink/prgs/rust/myrepos/custom-logger)
-    Finished test [unoptimized + debuginfo] target(s) in 0.52s
-     Running unittests src/lib.rs (target/debug/deps/custom_logger-c6ff9f644b370618)
+    Finished test [unoptimized + debuginfo] target(s) in 0.42s
+     Running unittests src/lib.rs (target/debug/deps/custom_logger-639fef1e42777d75)
 
-running 2 tests
-test test::test_env_logger_with_pipe ... 106 contents_so='println output
-73 contents_se='[2022-05-07T16:19:03.847496514Z INFO  custom_logger::test   54  3] hello
-'
-'
-73 contents_se='[2022-05-07T16:19:03.847543564Z INFO  custom_logger::test   76  2] hello
-'
-ok
+running 1 test
+println output
+captured=[2023-01-27T23:45:27.767671827Z INFO  custom_logger::test   76  2] hello
+
 test test::test_env_logger ... ok
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/custom_logger-a05169731f72476b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
    Doc-tests custom-logger
 
 running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
-wink@3900x 22-05-07T16:19:03.921Z:~/prgs/rust/myrepos/custom-logger (main)
 ```
 
 ## License
