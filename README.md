@@ -1,7 +1,11 @@
-# custom-logger
+# custom_logger
 
 My typical custom logger which prints time in nanos as well as line numbers and thread id.
-This must be used with an unstable build because `thread_id_value` uses `as_u64()`
+
+>Note: This has some `unsafe` code to be able to print thread id as a u64.
+As far as I know, this will not have any UB but it is possible that the `tid`
+could be garbage. Hopefully, `feature(thread_id_value)` will be stablized
+someday. see [this tracking issue](https://github.com/rust-lang/rust/issues/67939).
 
 ## Usage
 
@@ -20,17 +24,17 @@ fn main() {
 Dependencies:
 ```
 [dependencies]
-custom-logger = { git = "https://github.com/winksaville/custom-logger", version = "0.2.0" }
+custom_logger = { git = "https://github.com/winksaville/custom_logger", version = "0.2.0" }
 log = "0.4.17"
 ```
 
 Here is running src/main.rs:
 ```
-wink@3900x 23-01-28T00:27:43.338Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
+wink@3900x 23-01-28T00:27:43.338Z:~/prgs/rust/myrepos/custom_logger (use-gag-to-capture)
 $ cargo run
-   Compiling custom-logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom-logger)
+   Compiling custom_logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom_logger)
     Finished dev [unoptimized + debuginfo] target(s) in 0.41s
-     Running `target/debug/custom-logger`
+     Running `target/debug/custom_logger`
 println output
 [2023-01-28T00:27:46.951127343Z INFO  custom_logger    7  1] hello
 ```
@@ -49,9 +53,9 @@ Another gotcha is that env_logger can only be initialized once so this is not a 
 TODO: Create crate tests/ and pass the default configuration on the command line to test other configurations.
 
 ```
-wink@3900x 23-01-28T00:29:21.787Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
+wink@3900x 23-01-28T00:29:21.787Z:~/prgs/rust/myrepos/custom_logger (use-gag-to-capture)
 $ cargo test -- --nocapture
-   Compiling custom-logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom-logger)
+   Compiling custom_logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom_logger)
     Finished test [unoptimized + debuginfo] target(s) in 0.44s
      Running unittests src/lib.rs (target/debug/deps/custom_logger-cc98325a4823cf2e)
 
@@ -69,7 +73,7 @@ running 0 tests
 
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-   Doc-tests custom-logger
+   Doc-tests custom_logger
 
 running 0 tests
 
