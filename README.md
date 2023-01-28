@@ -24,6 +24,16 @@ custom-logger = { git = "https://github.com/winksaville/custom-logger", version 
 log = "0.4.17"
 ```
 
+Here is running src/main.rs:
+```
+wink@3900x 23-01-28T00:27:43.338Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
+$ cargo run
+   Compiling custom-logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom-logger)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.41s
+     Running `target/debug/custom-logger`
+println output
+[2023-01-28T00:27:46.951127343Z INFO  custom_logger    7  1] hello
+```
 
 ## Building
 
@@ -39,21 +49,21 @@ Another gotcha is that env_logger can only be initialized once so this is not a 
 TODO: Create crate tests/ and pass the default configuration on the command line to test other configurations.
 
 ```
-wink@3900x 23-01-27T23:45:20.791Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
+wink@3900x 23-01-28T00:29:21.787Z:~/prgs/rust/myrepos/custom-logger (use-gag-to-capture)
 $ cargo test -- --nocapture
-   Compiling custom-logger v0.1.0 (/home/wink/prgs/rust/myrepos/custom-logger)
-    Finished test [unoptimized + debuginfo] target(s) in 0.42s
-     Running unittests src/lib.rs (target/debug/deps/custom_logger-639fef1e42777d75)
+   Compiling custom-logger v0.2.0 (/home/wink/prgs/rust/myrepos/custom-logger)
+    Finished test [unoptimized + debuginfo] target(s) in 0.44s
+     Running unittests src/lib.rs (target/debug/deps/custom_logger-cc98325a4823cf2e)
 
 running 1 test
 println output
-captured=[2023-01-27T23:45:27.767671827Z INFO  custom_logger::test   76  2] hello
+captured=[2023-01-28T00:29:32.909674995Z INFO  custom_logger::test  101  2] hello
 
 test test::test_env_logger ... ok
 
 test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-     Running unittests src/main.rs (target/debug/deps/custom_logger-a05169731f72476b)
+     Running unittests src/main.rs (target/debug/deps/custom_logger-8f6ee98ac00e27fd)
 
 running 0 tests
 

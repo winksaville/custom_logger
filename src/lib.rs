@@ -1,6 +1,28 @@
-#![feature(thread_id_value)]
+//#![feature(thread_id_value)]
 
 use std::io::Write;
+
+//// Use if/when thread_id_value is stablelized,
+//// https://github.com/rust-lang/rust/issues/67939
+//fn tid() -> u64 {
+//    std::thread::current().id().as_u64().into()
+//}
+
+fn tid() -> u64 {
+
+    unsafe {
+        let id = std::thread::current().id();
+        let addr: *const u64 = std::mem::transmute(&id);
+        *addr
+
+        //// Using transmute and Shadowning from [B] at
+        ////   https://blog.knoldus.com/safe-way-to-access-private-fields-in-rust/
+        //let id = std::thread::current().id();
+        //struct MyThreadId(pub u64);
+        //let my_id: MyThreadId = std::mem::transmute(id);
+        //my_id.0
+    }
+}
 
 /// Can only be called once
 pub fn env_logger_init(default_level: &str) {
@@ -19,7 +41,7 @@ pub fn env_logger_init(default_level: &str) {
                 ""
             },
             if let Some(v) = record.line() { v } else { 0 },
-            std::thread::current().id().as_u64(),
+            tid(),
             record.args()
         )
     });
