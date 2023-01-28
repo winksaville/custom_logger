@@ -56,16 +56,18 @@ pub fn env_logger_init(default_level: &str) {
 #[cfg(test)]
 mod test {
     use super::*;
-    use gag::Redirect;
+    use gag::{Redirect, BufferRedirect};
     use std::{
         fs::{File, OpenOptions},
         io::{Read, Seek, SeekFrom},
     };
 
+    #[allow(unused)]
     fn get_temp_filepath() -> String {
         return "/tmp/my_log.log".into();
     }
 
+    #[allow(unused)]
     fn open_log_file() -> File {
         OpenOptions::new()
             .truncate(true)
@@ -76,11 +78,13 @@ mod test {
             .unwrap()
     }
 
+    #[allow(unused)]
     fn redirect_stderr_to_log_file() -> Redirect<File> {
         let log_file = open_log_file();
         Redirect::stderr(log_file).unwrap()
     }
 
+    #[allow(unused)]
     fn stop_redirection_return_as_string(redirect: Redirect<File>) -> String {
         // Stop redirecting and return the log_file
         let mut log_file = redirect.into_inner();
@@ -92,15 +96,33 @@ mod test {
         buf_string
     }
 
+    #[allow(unused)]
+    fn redirect_stderr_to_buffer() -> BufferRedirect {
+        BufferRedirect::stderr().unwrap()
+    }
+
+    #[allow(unused)]
+    fn stop_buffer_redirection_return_as_string(redirect: BufferRedirect) -> String {
+        // Stop redirecting and return the string
+        let mut log_file = redirect.into_inner();
+
+        let mut buf_string = String::new();
+        log_file.read_to_string(&mut buf_string).unwrap();
+
+        buf_string
+    }
+
     #[test]
     fn test_env_logger() {
         env_logger_init("info");
 
-        let redirect = redirect_stderr_to_log_file();
+        //let redirect = redirect_stderr_to_log_file();
+        let redirect = redirect_stderr_to_buffer();
         println!("println output");
         log::info!("hello");
-        let captured = stop_redirection_return_as_string(redirect);
-        println!("captured={captured}");
+        //let captured = stop_redirection_return_as_string(redirect);
+        let captured = stop_buffer_redirection_return_as_string(redirect);
+        println!("captured='{captured}'");
         assert!(captured.ends_with("] hello\n"));
     }
 }

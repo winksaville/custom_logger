@@ -47,8 +47,14 @@ cargo build
 
 ## Test
 
-You must use `cargo test -- --nocapture` otherwise test captures the output can the tests will fail.
-Another gotcha is that env_logger can only be initialized once so this is not a very thorough as only one configuration can be use.
+You must use `cargo test -- --nocapture` otherwise test captures the output and the tests will fail.
+Another gotcha is that env_logger can only be initialized once so this is not thoroughly tests as
+only one configuration can be use.
+
+>Note: I'm guessing if you use the `process::Command` technique that env_logger none of the output
+will be captured by the test harness and instead will be captured by the code. This will make the
+test better and more reliable. This will also allow other configurations to be used and mentioned
+in the todo below.
 
 TODO: Create crate tests/ and pass the default configuration on the command line to test other configurations.
 
